@@ -1,59 +1,49 @@
-## Anatomy of a Type Class
+## 型クラスの解剖
 
-There are three important components to the type class pattern:
-the *type class* itself,
-*instances* for particular types,
-and the methods that *use* type classes.
+型クラス（type class）パターンには３つの重要な要素がある。
+**型クラス**そのもの、
+特定の型に対する**インスタンス**、
+そして型クラスを**使う**方法だ。
 
-Type classes in Scala are implemented using *implicit values* and *parameters*,
-and optionally using *implicit classes*.
-Scala language constructs correspond to the components of type classes as follows:
+Scala では、型クラスは**暗黙の値（implicit values）**か**暗黙のパラメーター（implicit parameter）**、それと場合によって**暗黙のクラス（implicit class）** として実装される。
+Scala言語の言語機能は、型クラスの要素に次のように対応する。
 
-- traits: type classes;
-- implicit values: type class instances;
-- implicit parameters: type class use; and
-- implicit classes: optional utilities that make type classes easier to use.
+- トレイト（trait）： 型クラス
+- 暗黙の値： 型クラスのインスタンス
+- 暗黙のパラメーター： 型クラスの使用
+- 暗黙のクラス： 型クラスを使いやすくするために選べるユーティリティ
 
-Let's see how this works in detail.
+この対応がどういうことか詳細に見ていこう。
 
 
-### The Type Class
+### 型クラス
 
-A *type class* is an interface or API
-that represents some functionality we want to implement.
-In Scala a type class is represented by a trait with at least one type parameter.
-For example, we can represent generic "serialize to JSON" behaviour
-as follows:
+**型クラス**とは、ぼくたちが実装したいいくつかの機能を表すインターフェースあるいは API だ。
+Scala では、型クラスは少なくとも１つの型パラメーターを持つトレイトとして表現される。
+例えば、「JSON にシリアライズできる」という普遍的な挙動を、次のように表せる。
 
 ```scala mdoc:silent:reset-object
-// Define a very simple JSON AST
+// 単純化した JSON AST を定義する
 sealed trait Json
 final case class JsObject(get: Map[String, Json]) extends Json
 final case class JsString(get: String) extends Json
 final case class JsNumber(get: Double) extends Json
 final case object JsNull extends Json
 
-// The "serialize to JSON" behaviour is encoded in this trait
+// 「JSONにシリアライズできる」という挙動がこのトレイトにエンコードされている
 trait JsonWriter[A] {
   def write(value: A): Json
 }
 ```
 
-`JsonWriter` is our type class in this example,
-with `Json` and its subtypes providing supporting code.
-When we come to implement instances of `JsonWriter`,
-the type parameter `A` will be the concrete type of data we are writing.
+この例では、`JsonWriter` が型クラスで、`Json` とそのサブタイプは脇役のコードだ。
+`JsonWriter` のインスタンスを実装することになるときは、型パラメーター `A` は実装していくデータの具体的な型になる。
 
-### Type Class Instances
+### 型クラスのインスタンス
 
-The *instances* of a type class
-provide implementations of the type class for specific types we care about,
-which can include types from the Scala standard library
-and types from our domain model.
+型クラスの**インスタンス**とは、ぼくらが関心のある特定の型（Scala標準ライブラリの型でも、固有のドメインモデルの型でもよい） に、型クラスの実装を提供してくれるものだ。
 
-In Scala we define instances by creating
-concrete implementations of the type class
-and tagging them with the `implicit` keyword:
+Scala で型クラスを定義するには、まず具体的な実装を作り、そこに `implicit` キーワードをくっつける。
 
 ```scala mdoc:silent
 final case class Person(name: String, email: String)
@@ -74,28 +64,26 @@ object JsonWriterInstances {
         ))
     }
 
-  // etc...
+  // 以下略
 }
 ```
 
-These are known as implicit values.
+これは暗黙の値として知られる。
 
 
-### Type Class Use
+### 型クラスの使用
 
-A type class *use* is any functionality 
-that requires a type class instance to work.
-In Scala this means any method 
-that accepts instances of the type class as implicit parameters.
+型クラスの**使用**とは、動作するために型クラスインスタンスを必要とする機能のことだ。
+Scala では、暗黙のパラメーターとして型クラスインスタンスを受け取るメソッドを意味する。
 
-Cats provides utilities that make type classes easier to use,
-and you will sometimes seem these patterns in other libraries.
-There are two ways it does this: *Interface Objects* and *Interface Syntax*.
 
-**Interface Objects**
+Cats は型クラスを作りやすくするユーティリティを提供しているが、こうしたパターンを他のライブラリで見たことがあるかもしれない。
+作りやすくしているパターンには２つある。**インターフェースオブジェクト**と**インターフェース構文**だ。
 
-The simplest way of creating an interface that uses a type class
-is to place methods in a singleton object:
+
+**インターフェースオブジェクト**
+
+型クラスが使うインターフェースを作る一番簡単な方法は、シングルトンオブジェクトに置くメソッドだ。
 
 ```scala mdoc:silent
 object Json {
@@ -104,8 +92,7 @@ object Json {
 }
 ```
 
-To use this object, we import any type class instances we care about
-and call the relevant method:
+このオブジェクトを使うには、関心がある型クラスインスタンスをインポートし、関連するメソッドを使う。
 
 ```scala mdoc:silent
 import JsonWriterInstances._
@@ -115,24 +102,19 @@ import JsonWriterInstances._
 Json.toJson(Person("Dave", "dave@example.com"))
 ```
 
-The compiler spots that we've called the `toJson` method
-without providing the implicit parameters.
-It tries to fix this by searching for type class instances
-of the relevant types and inserting them at the call site:
+コンパイラーは、ぼくらが呼び出した `toJson` メソッドに暗黙のパラメーターが与えられてないことを発見する。
+次にこの問題を解決するために、関連する型の型クラスインスタンスを探し出して、呼び出し箇所に挿入する。
 
 ```scala mdoc:silent
 Json.toJson(Person("Dave", "dave@example.com"))(personWriter)
 ```
 
-**Interface Syntax**
+**インターフェースシンタックス**
 
-We can alternatively use *extension methods* to
-extend existing types with interface methods[^pimping].
-Cats refers to this as *"syntax"* for the type class:
+別の手段として、すでに存在する型をインターフェースメソッド[^pimping] で拡張する、**拡張メソッド** も使える。
+Cats の用語では、型クラスに対する **シンタックス** と呼んでいる。
 
-[^pimping]: You may occasionally see extension methods
-referred to as "type enrichment" or "pimping".
-These are older terms that we don't use anymore.
+[^pimping]: 拡張メソッドのことを、型を強化（enrich）するものだとか、型をごてごて飾り立てる（pimp）ものだ、と言っているのを見たことがあるかもしれない。これらは古い用語で、ぼくらはもう使わない（訳注：pimp の原義は犯罪者を指すことから、不適切とされたようだ）。
 
 ```scala mdoc:silent
 object JsonSyntax {
@@ -143,8 +125,7 @@ object JsonSyntax {
 }
 ```
 
-We use interface syntax by importing it
-alongside the instances for the types we need:
+シンタックスと欲しい型に対するインスタンスを一緒にインポートすることで、シンタックスが使える。
 
 ```scala mdoc:silent
 import JsonWriterInstances._
@@ -162,19 +143,18 @@ for the implicit parameters and fills them in for us:
 Person("Dave", "dave@example.com").toJson(personWriter)
 ```
 
-**The *implicitly* Method**
+***implicitly* メソッド**
 
-The Scala standard library provides
-a generic type class interface called `implicitly`.
-Its definition is very simple:
+Scala 標準ライブラリは `implicitly` と呼ばれるジェネリックな型クラスインターフェースを提供している。
+その定義はとても単純だ。
 
 ```scala
 def implicitly[A](implicit value: A): A =
   value
 ```
 
-We can use `implicitly` to summon any value from implicit scope.
-We provide the type we want and `implicitly` does the rest:
+暗黙のスコープから何らかの値を召喚したいときに `implicitly` を使える。
+ぼくらは欲しい型を指示だけして、`implicitly` が残りの仕事をやってくれる。
 
 ```scala mdoc
 import JsonWriterInstances._
@@ -182,8 +162,6 @@ import JsonWriterInstances._
 implicitly[JsonWriter[String]]
 ```
 
-Most type classes in Cats provide other means to summon instances.
-However, `implicitly` is a good fallback for debugging purposes.
-We can insert a call to `implicitly` within the general flow of our code
-to ensure the compiler can find an instance of a type class
-and ensure that there are no ambiguous implicit errors.
+Cat におけるほとんどの型クラスは、インスタンスを呼び出す他の方法を提供している。
+だが、`implicitly` はデバッグ目的では頼みの綱になる。
+コードの大まかな流れの中で `implicitly` の実行を付け加えていけば、コンパイラーが型クラスのインスタンスを見つけられること、`implicit` のエラーが起きてないことを確かめられる。
