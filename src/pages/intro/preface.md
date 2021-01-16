@@ -1,28 +1,22 @@
-# Preface {-}
+# 前書き {-}
 
-The aims of this book are two-fold:
-to introduce monads, functors, and other functional programming patterns
-as a way to structure program design,
-and to explain how these concepts are implemented in [Cats][link-cats].
+この本の目的は２つだ。
+プログラムの設計を構造化する方法として、モナド、ファンクター、その他の関数プログラミングパターンを紹介すること。
+そして、これらの概念が [Cats][link-cats] でどのように実装されているか解説すること。
 
-Monads, and related concepts, are the functional programming equivalent
-of object-oriented design patterns---architectural building blocks
-that turn up over and over again in code.
-They differ from object-oriented patterns in two main ways:
+モナドと関連する概念は、オブジェクト指向におけるデザインパターンの、関数プログラミング版のようなものだ。
+それは、コードの中に何度も何度も現れる、構造上の構成単位だ。
+オブジェクト指向のパターンとの違いは主に２つある。
 
-- they are formally, and thus precisely, defined; and
-- they are extremely (extremely) general.
+- 形式的（formally）かつ正確に（precisely）定義されている
+- 極めて、本当に極めて、普遍的（general）である
 
-This generality means they can be difficult to understand.
-*Everyone* finds abstraction difficult.
-However, it is generality that allows concepts like monads
-to be applied in such a wide variety of situations.
+この普遍性（generality）のせいで、理解が難しいこともある。
+誰しも、抽象概念を難しく感じるものだ。
+だが、まさに普遍性が、モナドのような概念を多種多様な状況に応用できるようにしているのだ。
 
-In this book we aim to show the concepts in a number of different ways,
-to help you build a mental model
-of how they work and where they are appropriate.
-We have extended case studies, a simple graphical notation,
-many smaller examples, and of course the mathematical definitions.
-Between them we hope you'll find something that works for you.
+この本でぼくらは、そういった概念が適切な場所でどのように動くかについてのメンタルモデルを形成する手助けとして、いくつもの異なる方法を示していこうとしている。
+事例研究、単純な図式での表記、たくさんのかんたんな例、さらにもちろん、数学的定義まで広げていく。
+これらのどれかがみなさんの理解に役立つだろうと願っている。
 
-Ok, let's get started!
+それでは、始めていこう！
