@@ -1,54 +1,49 @@
-## Conventions Used in This Book {-}
+## 本書での慣習 {-}
 
-This book contains a lot of technical information and program code.
-We use the following typographical conventions
-to reduce ambiguity and highlight important concepts:
+本書は多くの技術情報やプログラムコードを含んでいる。
+曖昧さを減らし、重要な概念を強調するため、次のような字体の慣習を使っている。
 
-### Typographical Conventions {-}
+### 字体の慣習 {-}
 
-New terms and phrases are introduced in *italics*.
-After their initial introduction they are written in normal roman font.
+新語や新フレーズは **太字** で表す（訳注：原文では斜体だが、日本語フォントでは斜体は読みにくいので太字とした）。
+一度紹介したあとは、通常の書体で書く。
 
-Terms from program code, filenames, and file contents,
-are written in `monospace font`.
-Note that we do not distinguish between singular and plural forms.
-For example, we might write `String` or `Strings` to refer to `java.lang.String`.
+プログラムコード、ファイル名、またはファイルの中から来た語句は、`等幅フォント` で書く。
+単数形や複数形を厳密に区別しないことに注意してほしい。
+例えば、`java.lang.String` について書くときに、`String` とも `Strings` とも書くことがある。
 
-References to external resources are written as [hyperlinks][link-underscore].
-References to API documentation are written
-using a combination of hyperlinks and monospace font,
-for example: [`scala.Option`][scala.Option].
+外部リソースへの参照は、[ハイパーリンク][link-underscore] として書く。
+API ドキュメントへの参照は、ハイパーリンクと等幅フォントを組み合わせて書く。
+例えば、[`scala.Option`][scala.Option] みたいにだ。
 
-### Source Code {-}
+### ソースコード {-}
 
-Source code blocks are written as follows.
-Syntax is highlighted appropriately where applicable:
+ソースコードのブロックは、次のように書く。
+シンタックスは、適用できるところでは適切にハイライトされる。
 
 ```scala mdoc:silent
 object MyApp extends App {
-  println("Hello world!") // Print a fine message to the user!
+  println("Hello world!") // ユーザーに親切なメッセージを表示！
 }
 ```
 
-Most code passes through [mdoc][link-mdoc] to ensure it compiles.
-mdoc uses the Scala console behind the scenes,
-so we sometimes show console-style output as comments:
+ほとんどのコードは [mdoc][link-mdoc] を使って、コンパイルできることを確かめている。
+mdoc は Scala コンソールを内部で使っているので、コメントとしてコンソール形式の出力を示すことがある。
 
 ```scala mdoc
 "Hello Cats!".toUpperCase
 ```
 
-### Callout Boxes {-}
+### 囲み {-}
 
-We use two types of *callout box* to highlight particular content:
+特定の内容を強調するため、 2種類の **囲み** を用いる。
 
 <div class="callout callout-info">
-Tip callouts indicate handy summaries, recipes, or best practices.
+**TIPS** 囲みは、便利な概要、コツ、ベストプラクティスを示している。
 </div>
 
 <div class="callout callout-warning">
-Advanced callouts provide additional information
-on corner cases or underlying mechanisms.
-Feel free to skip these on your first read-through---come
-back to them later for extra information.
+**先進** 囲みは、コーナーケースや内部の仕組みについての追加情報を与えてくれる。
+初めて読んでいくときは自由に読み飛ばして構わない。
+あとでさらなる情報が欲しいときに戻ってこよう。
 </div>

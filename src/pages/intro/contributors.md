@@ -1,11 +1,8 @@
-## Acknowledgements {-}
+## 謝辞 {-}
 
-We'd like to thank our colleagues at Inner Product and Underscore,
-our friends at Typelevel,
-and everyone who helped contribute to this book.
-Special thanks to Jenny Clements for her fantastic artwork
-and Richard Dallaway for his proof reading expertise.
-Here is an alphabetical list of contributors:
+Innder Product 社と Underscore 社の同僚たち、Typelevel の友人たち、そして本書への貢献を手伝ってくれたすべての人たちに感謝したい。
+特に、Jenny Clements のすばらしい挿絵、Richard Dallaway の校正の専門性に感謝したい。
+貢献いただいた方をアルファベット順に示す。
 
 Alessandro Marrella,
 Cody Koeninger,
@@ -58,8 +55,6 @@ Sergio Magnacco,
 Tim McIver,
 Toby Weston,
 Victor Osolovskiy,
-and Yinka Erinle.
+そして Yinka Erinle。
 
-If you spot an error or potential improvement,
-please raise an issue or submit a PR
-on the book's [Github page][link-github].
+もし間違いや改善できるかもしれないところに気づいたら、 本書の [Github ページ][link-github] に issue を報告したり、プルリクエストを送ってほしい。
